@@ -1,0 +1,37 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.4'
+    id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+    id 'java'
+    id 'org.seasar.doma.compile' version '1.1.0'
+    id "org.seasar.doma.codegen" version "1.4.1"
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+ext {
+    domaVersion = '2.52.0'
+}
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    //	lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    //	doma
+    implementation('org.seasar.doma.boot:doma-spring-boot-starter:1.6.0') {
+        exclude group: 'org.seasar.doma', module: 'doma-core'
+    }
+    implementation "org.seasar.doma:doma-core:${domaVersion}"
+    implementation "org.seasar.doma:doma-slf4j:${domaVersion}"
+    annotationProcessor "org.seasar.doma:doma-processor:${domaVersion}"
+    runtimeOnly 'com.h2database:h2'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
